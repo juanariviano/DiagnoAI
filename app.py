@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 from flask_socketio import SocketIO, emit
 import numpy as np
 import pandas as pd
@@ -11,6 +11,12 @@ from sklearn.svm import SVC
 # Inisialisasi aplikasi Flask dan SocketIO
 app = Flask(__name__)
 socketio = SocketIO(app)
+
+# Rute untuk melayani file dari folder assets
+@app.route('/assets/favicon.ico')
+def serve_favicon():
+    return send_from_directory('assets', 'favicon.ico')
+
 
 # Load dan preprocessing dataset
 url = 'https://drive.google.com/uc?export=download&id=1RdNi0rwNyYRchBWSfuS0mTJuM-vV_kk4'
