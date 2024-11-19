@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DiagnoAI</title>
+    <link rel="stylesheet" href="static/style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div id="title">
+        <h1>DiagnoAI</h1>
+        <h2>Prediksi Penyakit Jantung</h2>
+      </div>
+      
+      <label for="">Prediksi:</label>
+      <div id="chatbox" class="chatbox"></div>
+
+      <!-- Form untuk memasukkan gejala -->
+      <form id="symptom-form" class="symptom-form">
+        <label for="usia">Usia:</label>
+        <input
+          type="number"
+          id="usia"
+          name="usia"
+          placeholder="Masukkan usia (angka)"
+          required
+        />
+
+        <label for="jenis_kelamin">Jenis Kelamin:</label>
+        <select id="jenis_kelamin" name="jenis_kelamin" required>
+          <option value="Laki-laki">Laki-laki</option>
+          <option value="Perempuan">Perempuan</option>
+        </select>
+
+        <label for="nyeri_dada">Nyeri Dada:</label>
+        <select id="nyeri_dada" name="nyeri_dada" required>
+          <option value="Ya">Ya</option>
+          <option value="Tidak">Tidak</option>
+        </select>
+
+        <label for="trestbps">Tekanan Darah:</label>
+        <input
+          type="number"
+          id="trestbps"
+          name="trestbps"
+          placeholder="Masukkan tekanan darah (mmHg)"
+          required
+        />
+
+        <label for="cholestoral">Kolesterol:</label>
+        <input
+          type="number"
+          id="cholestoral"
+          name="cholestoral"
+          placeholder="Masukkan kolesterol (mg/dL)"
+          required
+        />
+
+        <label for="fasting_blood_sugar">Gula Darah Puasa (mg/dL):</label>
+        <input
+          type="number"
+          id="fasting_blood_sugar"
+          name="fasting_blood_sugar"
+          placeholder="Masukkan gula darah puasa (mg/dL)"
+          required
+        />
+
+        <label for="restecg">Electrocardiogram Rest:</label>
+        <select id="restecg" name="restecg" required>
+          <option value="0">Normal</option>
+          <option value="1">ST-T wave abnormality</option>
+          <option value="2">Left ventricular hypertrophy</option>
+        </select>
+
+        <label for="denyut_jantung">Denyut Jantung:</label>
+        <input
+          type="number"
+          id="denyut_jantung"
+          name="denyut_jantung"
+          placeholder="Masukkan denyut jantung (bpm)"
+          required
+        />
+
+        <label for="exang">Exang (Aktivitas fisik menyebabkan angina):</label>
+        <select id="exang" name="exang" required>
+          <option value="0">Tidak</option>
+          <option value="1">Ya</option>
+        </select>
+
+        <label for="oldpeak">Oldpeak (Depresi ST):</label>
+        <input
+          type="number"
+          id="oldpeak"
+          name="oldpeak"
+          placeholder="Masukkan oldpeak (angka)"
+          required
+        />
+
+        <label for="slope">Slope (Kemiringan segmen ST maksimum):</label>
+        <select id="slope" name="slope" required>
+          <option value="0">Upsloping</option>
+          <option value="1">Flat</option>
+          <option value="2">Downsloping</option>
+        </select>
+
+        <label for="ca">Jumlah pembuluh darah utama (0-3):</label>
+        <input
+          type="number"
+          id="ca"
+          name="ca"
+          min="0"
+          max="3"
+          placeholder="Masukkan angka 0-3"
+          required
+        />
+
+        <label for="thalium">Thalium:</label>
+        <select id="thalium" name="thalium" required>
+          <option value="3">Normal</option>
+          <option value="6">Fixed Defect</option>
+          <option value="7">Reversible Defect</option>
+        </select>
+
+        <button type="button" onclick="sendMessage()">Kirim</button>
+      </form>
+    </div>
+
+    <script>
+      const socket = io();
+
+      socket.on("bot_response", (data) => {
+        const chatbox = document.getElementById("chatbox");
+
+        // Mengganti '\n' dengan tag <br> untuk memastikan baris baru ditampilkan
+        const message = data.message.replace(/\n/g, "<br>");
+        chatbox.innerHTML = `<p>Bot: ${message}</p>`;
+      });
+
+      function sendMessage() {
+        const data = {
+          usia: document.getElementById("usia").value,
+          jenis_kelamin: document.getElementById("jenis_kelamin").value,
+          nyeri_dada: document.getElementById("nyeri_dada").value,
+          trestbps: document.getElementById("trestbps").value,
+          cholestoral: document.getElementById("cholestoral").value,
+          fasting_blood_sugar: document.getElementById("fasting_blood_sugar")
+            .value,
+          restecg: document.getElementById("restecg").value,
+          denyut_jantung: document.getElementById("denyut_jantung").value,
+          exang: document.getElementById("exang").value,
+          oldpeak: document.getElementById("oldpeak").value,
+          slope: document.getElementById("slope").value,
+          ca: document.getElementById("ca").value,
+          thalium: document.getElementById("thalium").value,
+        };
+        socket.emit("user_message", { data: data });
+        document.getElementById("symptom-form").reset();
+      }
+    </script>
+  </body>
+</html>
