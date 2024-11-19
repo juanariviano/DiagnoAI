@@ -20,7 +20,7 @@ input::placeholder {
   max-width: 600px;
   /* background-color: #fff; */
   padding: 20px;
-  margin: 70px 0;
+  margin: 30px 0;
   /* border-radius: 12px; Sudut yang lebih melengkung */
   /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); Bayangan lebih halus */
   /* box-sizing: border-box; */
@@ -40,6 +40,7 @@ input::placeholder {
 
 .container #title h2 {
   margin: 15px;
+  padding-bottom: 10px;
 }
 
 h1 {
