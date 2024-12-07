@@ -8,15 +8,18 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 
+
 # Inisialisasi aplikasi Flask dan SocketIO
 app = Flask(__name__)
 socketio = SocketIO(app)
+
+
+
 
 # Rute untuk melayani file dari folder assets
 @app.route('/assets/favicon.ico')
 def serve_favicon():
     return send_from_directory('assets', 'favicon.ico')
-
 
 # Load dan preprocessing dataset
 url = 'https://drive.google.com/uc?export=download&id=1RdNi0rwNyYRchBWSfuS0mTJuM-vV_kk4'
@@ -125,5 +128,11 @@ def handle_message(message):
 
 
 # Menjalankan aplikasi
+# if __name__ == '__main__':
+#     socketio.run(app, debug=True)
+
+
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    # Mengatur host menjadi 0.0.0.0 agar bisa diakses dari perangkat lain
+    app.run(host='0.0.0.0', port=5000, debug=True)
+
