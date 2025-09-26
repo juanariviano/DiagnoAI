@@ -45,7 +45,7 @@ DiagnoAI/
 
 1. **Clone Repository**
    ```bash
-   git clone https://github.com/username/DiagnoAI.git
+   git clone https://github.com/juanariviano/DiagnoAI.git
    cd DiagnoAI
    ```
 
